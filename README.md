@@ -1,2 +1,1 @@
-# alx-low_level_programming
-c language
+This repo contains solutions to C language
