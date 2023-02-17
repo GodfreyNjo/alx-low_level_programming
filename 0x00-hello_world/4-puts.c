@@ -8,8 +8,8 @@
  */
 int main(void)
 {
-puts("Programming is like building a multilingual puzzle");
-errno = (0);
+puts("\"Programming is like building a multilingual puzzle");
+errno = 0;
 perror("Anything");
 return (0);
 }
