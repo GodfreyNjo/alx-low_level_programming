@@ -1,10 +1,2 @@
 #!/bin/bash
-
-# Get the C file name from the environment variable
-CFILE=$CFILE
-
-# Set the output file name to the same as the C file, but with a .s extension
-OUTPUT_FILE=${CFILE%.c}.s
-
-# Compile the C file and generate the assembly code using gcc
-gcc -S -masm=intel $CFILE -o $OUTPUT_FILE
+gcc -S -masm=intel $CFILE -o ${CFILE%.c}.s
