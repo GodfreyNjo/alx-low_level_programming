@@ -1,4 +1,5 @@
 #include <stdio.h>
+
 /**
  * main - entry point, prints alphabet in lowercase and uppercase
  *
@@ -8,8 +9,7 @@ int main(void)
 {
 char letter = 'a';
 
-while (letter <= 'z)
-}
+while (letter <= 'z')
 {
 putchar(letter);
 letter++;
