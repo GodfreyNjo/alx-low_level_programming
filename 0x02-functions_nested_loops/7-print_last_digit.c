@@ -1,4 +1,5 @@
 #include "main.h"
+#include <stdlib.h>
 
 /**
  * print_last_digit - Prints the lastdigit of a anumber
@@ -8,9 +9,10 @@
  */
 int  print_last_digit(int n)
 {
-	int  last_digit = _abs(n) % 10;
+	int  last_digit = abs(n) % 10;
 
 	_putchar('0' + last_digit);
 
 	return (last_digit);
 }
+
