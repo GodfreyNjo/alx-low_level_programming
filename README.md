@@ -1,1 +1,1 @@
-This repository contains also the solutions to C - Debugging
+This repo relates to 0x07-pointers_arrays_strings
