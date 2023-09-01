@@ -1,19 +1,20 @@
 #include "main.h"
-
 /**
-* a function that will print string
-* @s: The string to be printed.
-**/
-
-void _puts_recursion(char *s);
+ * _puts_recursion - function like puts();
+ * @s: input
+ * Return: Always 0 (Success)
+ */
+void _puts_recursion(char *s)
 {
-	if (*s == '\0')//Base case
+	if (*s)
+	{
+		_putchar(*s);
+		_puts_recursion(s + 1);
+	}
 
-	{putchar('\n');
-return;
+	else
+		_putchar('\n');
 }
-putchar(*s);
-_puts_recursion(s + 1);
-}
+
 
 
