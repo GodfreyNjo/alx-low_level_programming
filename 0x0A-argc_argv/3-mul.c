@@ -1,13 +1,12 @@
+#include <stdio.h>
 #include "main.h"
-#include <stdlib.h>
 
 /**
- * main - Entry point of the program
- * @argc: Number of command-line arguments
- * @argv: Array of command-line arguments
- * Return: 0 if successful, 1 if there are not enough arguments
+ * _atoi - function converts a string to an integer.
+ * @s: the string to be converted.
+ *
+ * Return: the int converted from the string
  */
-
 int _atoi(char *s)
 {
 	int i, d, n, len, f, digit;
@@ -28,6 +27,7 @@ int _atoi(char *s)
 			++d;
 
 		if (s[i] >= '0' && s[i] <= '9')
+
 		{
 			digit = s[i] - '0';
 			if (d % 2)
@@ -37,6 +37,7 @@ int _atoi(char *s)
 			if (s[i + 1] < '0' || s[i + 1] > '9')
 				break;
 			f = 0;
+
 		}
 		i++;
 	}
@@ -48,14 +49,13 @@ int _atoi(char *s)
 }
 
 /**
- * main - this multiplies two numbers.
+ * main - function that multiplies two numbers.
  *
  * @argc: the number of arguments
  * @argv: array of arguments.
  *
- * Return: 0 (Success), 1 (Error)
+ * Return: 0 on (Success), 1 on (Error)
  */
-
 int main(int argc, char *argv[])
 {
 	int result, num1, num2;
@@ -71,7 +71,10 @@ int main(int argc, char *argv[])
 	result = num1 * num2;
 
 	printf("%d\n", result);
-
 	return (0);
 }
+
+
+
+
 
