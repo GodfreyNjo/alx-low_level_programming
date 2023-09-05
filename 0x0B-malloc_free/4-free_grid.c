@@ -3,15 +3,14 @@
 #include "main.h"
 
 /**
- * free2DGrid - Frees a 2D grid
- * @grid: The 2D grid to free
+ * free_grid_2d_array - Frees a 2D array
+ * @grid: The 2D array to be freed
  * @height: The height dimension of the grid
  *
- * Description: This function frees the memory allocated for a 2D grid.
- *
- * Return: Nothing
+ * Description: Frees the memory of a 2D array.
+ * Return: None
  */
-void free2DGrid(int **grid, int height)
+void free_grid_2d_array(int **grid, int height)
 {
 	int i;
 
