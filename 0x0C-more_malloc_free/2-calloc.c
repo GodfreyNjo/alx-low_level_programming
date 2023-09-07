@@ -2,14 +2,14 @@
 #include "main.h"
 
 /**
- * custom_memset - Fills memory with a constant byte
- * @s: Memory area to be filled
- * @b: Char to copy
- * @n: Number of times to copy b
+ * _memset - Fills memory with a constant byte.
+ * @s: Memory area to be filled.
+ * @b: Character to copy.
+ * @n: Number of times to copy b.
  *
- * Return: Pointer to the memory area s
+ * Return: Pointer to the memory area s.
  */
-char *custom_memset(char *s, char b, unsigned int n)
+char *_memset(char *s, char b, unsigned int n)
 {
 	unsigned int i;
 
@@ -22,13 +22,13 @@ char *custom_memset(char *s, char b, unsigned int n)
 }
 
 /**
- * custom_calloc - Allocates memory for an array
- * @nmemb: Number of elements in the array
- * @size: Size of each element
+ * _calloc - Allocates memory for an array and initializes it to zero.
+ * @nmemb: Number of elements in the array.
+ * @size: Size of each element.
  *
- * Return: Pointer to allocated memory
+ * Return: Pointer to allocated memory.
  */
-void *custom_calloc(unsigned int nmemb, unsigned int size)
+void *_calloc(unsigned int nmemb, unsigned int size)
 {
 	char *ptr;
 
@@ -40,7 +40,7 @@ void *custom_calloc(unsigned int nmemb, unsigned int size)
 	if (ptr == NULL)
 		return (NULL);
 
-	custom_memset(ptr, 0, nmemb * size);
+	_memset(ptr, 0, nmemb * size);
 
 	return (ptr);
 }
