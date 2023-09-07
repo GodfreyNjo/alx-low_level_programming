@@ -2,58 +2,102 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#define ERR_MSG "Error"
+#define ERROR_MSG "Error"
 
 /**
- *is_digit - Checks if a string contains only digits.
+ * is_valid_digit - Checks if a string contains only digits.
  * @str: The string to be evaluated.
  *
- * Return: 0  if all characters are digits, 1  otherwise.
+ * Return: 1 if all characters are digits, 0 otherwise.
  */
-int is_digit(char *s)
+int is_valid_digit(char *str)
 {
 	int i = 0;
 
-	while (s[i])
+	while (str[i])
 	{
-		if (s[i] < '0' || s[i] > '9')
+		if (str[i] < '0' || str[i] > '9')
 			return (0);
 		i++;
-i	}
+	}
 	return (1);
 }
 
 /**
- * _strlen - returns the lengthof the string.
- * @s: string to evaluate.
+ * _strlen - Returns the length of a string.
+ * @str: The string to evaluate.
  *
- *
- *
- *
- * Return: the length of the string
+ * Return: The length of the string.
  */
-int _strlen(char *s)
+int _strlen(char *str)
 {
-	int i = 0;
+	int len = 0;
 
-	while (s[i] != '\0')
-	{
-		i++;
-	}
-	return (i);
+	while (str[len] != '\0')
+		len++;
+	return (len);
 }
 
 /**
- * errors - will take care of errors for the main
+ * handle_errors - Handles errors for the main function.
  */
-void errors(void)
+void handle_errors(void)
 {
-	printf("Error\n");
+	printf("%s\n", ERROR_MSG);
 	exit(98);
 }
 
 /**
- * * main - Multiplies two positive numbers.
+ * multiply_numbers - Multiplies two numbers represented as strings.
+ * @num1: The first number as a string.
+ * @num2: The second number as a string.
+ * @result: The array to store the result.
+ */
+void multiply_numbers(char *num1, char *num2, int *result)
+{
+	int len1 = _strlen(num1);
+	int len2 = _strlen(num2);
+
+	for (int i = 0; i <= len1 + len2; i++)
+		result[i] = 0;
+
+	for (int i = len1 - 1; i >= 0; i--)
+	{
+		int digit1 = num1[i] - '0';
+		int carry = 0;
+		for (int j = len2 - 1; j >= 0; j--)
+		{
+			int digit2 = num2[j] - '0';
+			carry += result[i + j + 1] + (digit1 * digit2);
+			result[i + j + 1] = carry % 10;
+			carry /= 10;
+		}
+		if (carry > 0)
+			result[i + len2 + 1] += carry;
+	}
+}
+
+/**
+ * print_result - Prints the result stored in the array.
+ * @result: The array containing the result.
+ */
+void print_result(int *result)
+{
+	int started = 0;
+	for (int i = 0; result[i] != '\0'; i++)
+	{
+		if (result[i])
+			started = 1;
+		if (started)
+			putchar(result[i] + '0');
+	}
+	if (!started)
+		putchar('0');
+	putchar('\n');
+}
+
+/**
+ * main - Multiplies two positive numbers.
  * @argc: Number of arguments.
  * @argv: Array of arguments.
  *
@@ -61,49 +105,23 @@ void errors(void)
  */
 int main(int argc, char *argv[])
 {
-	char *s1, *s2;
-	int len1, len2, len, i, carry, digit1, digit2, *result, a = 0;
+	char *num1, *num2;
+	int *result;
 
-	s1 = argv[1], s2 = argv[2];
-	if (argc != 3 || !is_digit(s1) || !is_digit(s2))
-		errors();
-	len1 = _strlen(s1);
-	len2 = _strlen(s2);
-	len = len1 + len2 + 1;
-	result = malloc(sizeof(int) * len);
+	num1 = argv[1];
+	num2 = argv[2];
+	if (argc != 3 || !is_valid_digit(num1) || !is_valid_digit(num2))
+		handle_errors();
+
+	int total_len = _strlen(num1) + _strlen(num2) + 1;
+	result = malloc(sizeof(int) * total_len);
 	if (!result)
 		return (1);
-	for (i = 0; i <= len1 + len2; i++)
-		result[i] = 0;
-	for (len1 = len1 - 1; len1 >= 0; len1--)
-	{
-		digit1 = s1[len1] - '0';
-		carry = 0;
-		for (len2 = _strlen(s2) - 1; len2 >= 0; len2--)
-		{
-			digit2 = s2[len2] - '0';
-			carry += result[len1 + len2 + 1] + (digit1 * digit2);
-			result[len1 + len2 + 1] = carry % 10;
-			carry /= 10;
-		}
-		if (carry > 0)
-			result[len1 + len2 + 1] += carry;
-	}
-	for (i = 0; i < len - 1; i++)
-	{
-		if (result[i])
-			a = 1;
-		if (a)
-			_putchar(result[i] + '0');
-	}
-	if (!a)
-		_putchar('0');
-	_putchar('\n');
+
+	multiply_numbers(num1, num2, result);
+	print_result(result);
+
 	free(result);
 	return (0);
 }
-
-
-
-
 
