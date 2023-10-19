@@ -5,148 +5,148 @@
 #include <unistd.h>
 
 /**
- * display_elf_magic - prints the ELF magic numbers
- * @e_ident: Pointer to array containing ELF magic numbers
+ * print_elf_id_data - Outputs the ELF identification bytes.
+ * @id_data: Pointer referencing the array with ELF identification bytes.
  */
-void display_elf_magic(unsigned char *e_ident)
+void print_elf_id_data(unsigned char *id_data)
 {
-	int i;
+	int counter;
 
-	printf("Magic:   ");
-	for (i = 0; i < EI_NIDENT; i++)
+	printf("ELF ID Bytes:	");
+	for (counter = 0; counter < EI_NIDENT; counter++)
 	{
-		printf("%02x ", e_ident[i]);
+		printf("%02x ", id_data[counter]);
 	}
 	printf("\n");
 }
 
 /**
- * display_elf_class - prints the ELF class
- * @elf_class: ELF class byte
+ * print_elf_format - Outputs the format of the ELF file.
+ * @format_indicator: Byte indicating the ELF format.
  */
-void display_elf_class(unsigned char elf_class)
+void print_elf_format(unsigned char format_indicator)
 {
-	printf("Class:                             ");
-	switch (elf_class)
+	printf("Format:				");
+	switch (format_indicator)
 	{
 	case ELFCLASSNONE:
-		printf("Invalid class\n");
+		printf("Undefined format\n");
 		break;
 	case ELFCLASS32:
-		printf("ELF32\n");
+		printf("32-bit format\n");
 		break;
 	case ELFCLASS64:
-		printf("ELF64\n");
+		printf("64-bit format\n");
 		break;
 	default:
-		printf("Unknown\n");
+		printf("Unrecognized format\n");
 	}
 }
 
 /**
- * display_data_encoding - prints the data encoding of the ELF file
- * @data_encoding: Data encoding byte
+ * print_byte_order - Outputs the byte ordering used in the ELF file.
+ * @order_type: Byte representing the data encoding.
  */
-void display_data_encoding(unsigned char data_encoding)
+void print_byte_order(unsigned char order_type)
 {
-	printf("Data:                              ");
-	switch (data_encoding)
+	printf("Byte Order:			");
+	switch (order_type)
 	{
 	case ELFDATANONE:
-		printf("Invalid data encoding\n");
+		printf("Invalid encoding\n");
 		break;
 	case ELFDATA2LSB:
-		printf("2's complement, little endian\n");
+		printf("Little-endian\n");
 		break;
 	case ELFDATA2MSB:
-		printf("2's complement, big endian\n");
+		printf("Big-endian\n");
 		break;
 	default:
-		printf("Unknown\n");
+		printf("Unrecognized encoding\n");
 	}
 }
 
 /**
- * display_version - prints the version of the ELF file
- * @version: Version byte
+ * print_file_version - Outputs the version of the ELF specification used.
+ * @spec_version: Byte representing the version.
  */
-void display_version(unsigned char version)
+void print_file_version(unsigned char spec_version)
 {
-	printf("Version:                           ");
-	if (version == EV_CURRENT)
+	printf("Spec Version:			");
+	if (spec_version == EV_CURRENT)
 	{
-		printf("1 (current)\n");
+		printf("Current standard version\n");
 	}
 	else
 	{
-		printf("Invalid version\n");
+		printf("Non-standard or outdated version\n");
 	}
 }
 
 /**
- * validate_elf_file - checks if the file is a valid ELF file
- * @header: Pointer to the ELF header structure
- * @fd: File descriptor of the ELF file
- * Return: 0 if valid, or 1 if invalid
+ * verify_elf_status - Confirms if the file follows the ELF specification.
+ * @header_info: Pointer to the ELF header structure.
+ * @file_descriptor: File descriptor for the ELF file.
+ * Return: 0 if specifications are met, 1 if they are not.
  */
-int validate_elf_file(Elf64_Ehdr *header, int fd)
+int verify_elf_status(Elf64_Ehdr *header_info, int file_descriptor)
 {
-	if (header->e_ident[EI_MAG0] != ELFMAG0 ||
-		header->e_ident[EI_MAG1] != ELFMAG1 ||
-		header->e_ident[EI_MAG2] != ELFMAG2 ||
-		header->e_ident[EI_MAG3] != ELFMAG3)
+	if (header_info->e_ident[EI_MAG0] != ELFMAG0 ||
+		header_info->e_ident[EI_MAG1] != ELFMAG1 ||
+		header_info->e_ident[EI_MAG2] != ELFMAG2 ||
+		header_info->e_ident[EI_MAG3] != ELFMAG3)
 	{
-		fprintf(stderr, "Not an ELF file\n");
-		close(fd);
+		fprintf(stderr, "File does not conform to ELF specifications.\n");
+		close(file_descriptor);
 		return (1);
 	}
 	return (0);
 }
 
 /**
- * main - Entry point, opens an ELF file and prints info from its header
- * @argc: Argument count
- * @argv: Argument vector
- * Return: 0 on success, or 1 on failure
+ * main - Primary function, reads an ELF file and outputs its header information.
+ * @argc: Number of command line arguments.
+ * @argv: Array containing the command line arguments.
+ * Return: 0 upon successful execution, 1 upon failure.
  */
 int main(int argc, char **argv)
 {
-	int fd;
-	Elf64_Ehdr header;
+	int file_descriptor;
+	Elf64_Ehdr header_info;
 
 	if (argc != 2)
 	{
-		fprintf(stderr, "Usage: %s <ELF file>\n", argv[0]);
+		fprintf(stderr, "Usage: %s elf_file_path\n", argv[0]);
 		return (1);
 	}
 
-	fd = open(argv[1], O_RDONLY);
-	if (fd == -1)
+	file_descriptor = open(argv[1], O_RDONLY);
+	if (file_descriptor == -1)
 	{
-		perror("Error opening file");
+		perror("Unable to access file");
 		return (1);
 	}
 
-	if (read(fd, &header, sizeof(header)) != sizeof(header))
+	if (read(file_descriptor, &header_info, sizeof(header_info)) != sizeof(header_info))
 	{
-		perror("Error reading ELF header");
-		close(fd);
+		perror("Could not retrieve ELF header information");
+		close(file_descriptor);
 		return (1);
 	}
 
-	if (validate_elf_file(&header, fd))
+	if (verify_elf_status(&header_info, file_descriptor))
 	{
 		return (1);
 	}
 
-	display_elf_magic(header.e_ident);
-	display_elf_class(header.e_ident[EI_CLASS]);
-	display_data_encoding(header.e_ident[EI_DATA]);
-	display_version(header.e_ident[EI_VERSION]);
+	print_elf_id_data(header_info.e_ident);
+	print_elf_format(header_info.e_ident[EI_CLASS]);
+	print_byte_order(header_info.e_ident[EI_DATA]);
+	print_file_version(header_info.e_ident[EI_VERSION]);
 
-	if (close(fd) == -1)
+	if (close(file_descriptor) == -1)
 	{
-		perror("Error closing file");
+		perror("Error encountered while closing the file");
 		return (1);
 	}
 
