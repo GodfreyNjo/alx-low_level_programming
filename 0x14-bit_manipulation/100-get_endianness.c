@@ -1,11 +1,11 @@
 #include "main.h"
 
 /**
- * check_endianness - Determine the endianness of the system.
+ * determine_endianness - Check the system's endianness.
  *
  * Return: 0 if big endian, 1 if little endian.
  */
-int check_endianness(void)
+int determine_endianness(void)
 {
 	int test_value;
 	char *byte_ptr;
