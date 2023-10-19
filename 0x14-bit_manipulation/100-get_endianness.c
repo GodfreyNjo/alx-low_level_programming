@@ -1,18 +1,33 @@
 #include "main.h"
+#include <stdio.h>
 
 /**
- * determine_endianness - Check the system's endianness.
+ * get_endianness - Checks the endianness of the system.
  *
- * Return: 0 if big endian, 1 if little endian.
+ * Return: 0 if the system is big endian, 1 if it's little endian.
  */
-int determine_endianness(void)
+int get_endianness(void)
 {
-	int test_value;
-	char *byte_ptr;
+	unsigned int test = 1;
+	char *byte = (char *)&test;
 
-	test_value = 1;
-	byte_ptr = (char *)&test_value;
+	return ((byte[0] == 1) ? 1 : 0);
+}
 
-	return (*byte_ptr);
+/**
+ * main - Entry point
+ *
+ * Return: Always 0 (Success)
+ */
+int main(void)
+{
+	int endianness = get_endianness();
+
+	if (endianness == 0)
+		printf("This system is big endian.\n");
+	else
+		printf("This system is little endian.\n");
+
+	return (0);
 }
 
