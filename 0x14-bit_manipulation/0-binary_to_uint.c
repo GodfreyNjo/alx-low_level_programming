@@ -1,40 +1,37 @@
 #include "main.h"
 
 /**
- * binary_to_uint - Converts a binary number to an unsigned int.
- * @b: Pointer to a string of 0 and 1 characters.
+ * binary_to_uint - Converts a binary number in a string to an unsigned int.
+ * @binary_string: Pointer to a null-terminated string containing
+ * a binary number.
+ * The function ensures the string consists solely of
+ * '0' or '1' characters, then
+ * calculates the decimal value of the binary number.
+ * If an invalid character is encountered,
+ * or if 'binary_string' is NULL, the function returns 0.
  *
- * This function parses a string containing a binary number and converts
- * it into the corresponding unsigned integer. The parsing process validates
- * the presence of only '0' or '1' characters in the string; otherwise,
- * it returns 0 for any invalid input.
- * It goes through each character only once,
- * avoiding unnecessary iterations and checks, making the loop more efficient.
- *
- * Return: The converted unsigned int value, or 0 if there is an error (e.g.,
- * non-binary characters in the input string, or b is NULL).
+ * Return: The unsigned int representation of the binary number,
+ * or 0 if an error occurs.
  */
-unsigned int binary_to_uint(const char *b)
+unsigned int binary_to_uint(const char *binary_string)
 {
+	int idx;
 	unsigned int num = 0;
 
-	if (!b)
+	if (!binary_string)
 		return (0);
 
-	for (int a = 0; b[a] != '\0'; a++)
+	for (idx = 0; binary_string[idx] != '\0'; idx++)
 	{
-		if (b[a] == '1')
-		{
-			num = (num << 1) + 1;
-		}
-		else if (b[a] == '0')
-		{
-			num <<= 1;
-		}
-		else
-		{
+		if (binary_string[idx] != '0' && binary_string[idx] != '1')
 			return (0);
-		}
+	}
+
+	for (idx = 0; binary_string[idx] != '\0'; idx++)
+	{
+		num <<= 1;
+		if (binary_string[idx] == '1')
+			num += 1;
 	}
 
 	return (num);
